@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
-import {Card, Form, Button} from "react-bootstrap";
+import {Card, Form, Button, Alert} from "react-bootstrap";
+import fireApp from "../../utils/fireApp";
 
 class LoginPage extends Component {
     state = {
         isLoginMode: true,
         email: '',
         password: '',
-        emailError: false,
-        passwordError: false
+        passwordConfirmation: '',
+        hasError: false, //TODO изменить на текст чтобы показывать ошибку
+        isLoading: false,
     }
 
     handleLoginPageMode = () => {
@@ -22,8 +24,32 @@ class LoginPage extends Component {
         this.setState({password: e.target.value})
     }
 
-    handleSubmit = (e) => {
-        console.log(e)
+    handlePasswordConfirmation = (e) => {
+        this.setState({passwordConfirmation: e.target.value})
+    }
+
+    handleSubmit = async () => {
+        const {email, password, passwordConfirmation} = this.state
+
+
+        if (password !== passwordConfirmation) {
+            this.setState({hasError: true})
+            console.log('passwords are different')
+            return
+        }
+
+        try {
+            // TODO добавить условие login|signup
+
+            this.setState({isLoading: true, hasError: false})
+            await fireApp.auth().createUserWithEmailAndPassword(email, password)
+            alert('You are signed up!')
+        } catch (err) {
+            console.log(err.message)
+            this.setState({hasError: true})
+        } finally {
+            this.setState({isLoading: false})
+        }
     }
 
     render() {
@@ -31,8 +57,9 @@ class LoginPage extends Component {
             isLoginMode,
             email,
             password,
-            emailError,
-            passwordError
+            hasError,
+            isLoading,
+            passwordConfirmation
         } = this.state;
 
         return (
@@ -41,12 +68,13 @@ class LoginPage extends Component {
                     <Card.Title className="text-center">
                         {isLoginMode ? "Log In" : "Sign Up"}
                     </Card.Title>
+                    {hasError && <Alert variant="danger">Something goes wrong :(</Alert>}
                     <Form>
                         <Form.Group controlId="email">
                             <Form.Label>Email</Form.Label>
                             <Form.Control
                                 type="email"
-                                placeholder="Enter email"
+                                placeholder="Enter your email"
                                 value={email}
                                 onChange={this.handleEmail}
                             />
@@ -59,7 +87,7 @@ class LoginPage extends Component {
                             <Form.Label>Password</Form.Label>
                             <Form.Control
                                 type="password"
-                                placeholder="Password"
+                                placeholder="Enter your password"
                                 value={password}
                                 onChange={this.handlePassword}
                             />
@@ -67,11 +95,23 @@ class LoginPage extends Component {
                                 Password should be at least 6 symbols.
                             </Form.Text>
                         </Form.Group>
+                        {!isLoginMode && (
+                            <Form.Group controlId="password-confirmation">
+                                <Form.Label>Password Confirmation</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Please repeat your password"
+                                    value={passwordConfirmation}
+                                    onChange={this.handlePasswordConfirmation}
+                                />
+                            </Form.Group>
+                        )}
 
                         <Button
                             variant="primary"
                             className="w-100"
                             onClick={this.handleSubmit}
+                            disabled={isLoading}
                         >
                             {isLoginMode ? "Log In" : "Sign Up"}
                         </Button>
