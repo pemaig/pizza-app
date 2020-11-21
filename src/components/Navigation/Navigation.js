@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
-import {Navbar, Nav} from "react-bootstrap";
+import {Nav, Navbar} from "react-bootstrap";
+import {Link} from "react-router-dom";
+import {ROUTES} from "../../utils/consts";
 
 class Navigation extends Component {
     render() {
         return (
             <Navbar variant="dark" bg="dark">
-                <Navbar.Brand href="#home" >Pizza App</Navbar.Brand>
+                <Navbar.Brand as={Link} to={ROUTES.HOME}>Pizza App</Navbar.Brand>
                 <Nav className="ml-auto">
-                    <Nav.Link href="#menu">Menu</Nav.Link>
-                    <Nav.Link href="#my-orders">My Orders</Nav.Link>
-                    <Nav.Link href="#card">Card</Nav.Link>
-                    <Nav.Link href="#login">Log In</Nav.Link>
+                    <Nav.Link as={Link} to={ROUTES.HOME}>Menu</Nav.Link>
+                    <Nav.Link as={Link} to={ROUTES.LOGIN}>Log In</Nav.Link>
+                    <Nav.Link as={Link} to={ROUTES.ORDERS}>My Orders</Nav.Link>
+                    <Nav.Link as={Link} to={ROUTES.CARD}>Card</Nav.Link>
                 </Nav>
             </Navbar>
         );
