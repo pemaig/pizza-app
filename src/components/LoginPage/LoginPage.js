@@ -8,12 +8,11 @@ class LoginPage extends Component {
         email: '',
         password: '',
         passwordConfirmation: '',
-        hasError: false, //TODO изменить на текст чтобы показывать ошибку
-        isLoading: false,
+        error: '',
     }
 
     handleLoginPageMode = () => {
-        this.setState({isLoginMode: !this.state.isLoginMode})
+        this.setState({isLoginMode: !this.state.isLoginMode, error: ''})
     }
 
     handleEmail = (e) => {
@@ -29,24 +28,24 @@ class LoginPage extends Component {
     }
 
     handleSubmit = async () => {
-        const {email, password, passwordConfirmation} = this.state
-
-
-        if (password !== passwordConfirmation) {
-            this.setState({hasError: true})
-            console.log('passwords are different')
-            return
-        }
+        const {email, password, passwordConfirmation, isLoginMode} = this.state
 
         try {
-            // TODO добавить условие login|signup
+            this.setState({isLoading: true, error: ''})
 
-            this.setState({isLoading: true, hasError: false})
-            await fireApp.auth().createUserWithEmailAndPassword(email, password)
-            alert('You are signed up!')
+            if (isLoginMode) {
+                await fireApp.auth().signInWithEmailAndPassword(email, password)
+                alert('You are logged in!')
+            } else {
+                if (password !== passwordConfirmation) {
+                    this.setState({error: 'Passwords are different'})
+                    return
+                }
+                await fireApp.auth().createUserWithEmailAndPassword(email, password)
+                alert('You are signed up!')
+            }
         } catch (err) {
-            console.log(err.message)
-            this.setState({hasError: true})
+            this.setState({error: err.message})
         } finally {
             this.setState({isLoading: false})
         }
@@ -57,7 +56,7 @@ class LoginPage extends Component {
             isLoginMode,
             email,
             password,
-            hasError,
+            error,
             isLoading,
             passwordConfirmation
         } = this.state;
@@ -68,7 +67,7 @@ class LoginPage extends Component {
                     <Card.Title className="text-center">
                         {isLoginMode ? "Log In" : "Sign Up"}
                     </Card.Title>
-                    {hasError && <Alert variant="danger">Something goes wrong :(</Alert>}
+                    {error && <Alert variant="danger">{error}</Alert>}
                     <Form>
                         <Form.Group controlId="email">
                             <Form.Label>Email</Form.Label>
