@@ -28,6 +28,7 @@ class LoginPage extends Component {
     }
 
     handleSubmit = async () => {
+        // TODO добавить валидацию полей перед отправкой на сервер
         const {email, password, passwordConfirmation, isLoginMode} = this.state
 
         try {
