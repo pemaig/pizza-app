@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, Form, Button, Alert} from "react-bootstrap";
+import {Alert, Button, Card, Form} from "react-bootstrap";
 import {logIn, signIn} from "../../utils/fireApp";
 import {ROUTES} from "../../utils/consts";
 
@@ -67,7 +67,7 @@ class LoginPage extends Component {
         } = this.state;
 
         return (
-            <Card className="mt-5 ml-auto mr-auto" style={{width: 450}}>
+            <Card className="custom-card mt-5 ml-auto mr-auto">
                 <Card.Body>
                     <Card.Title className="text-center">
                         {isLoginMode ? "Log In" : "Sign Up"}
