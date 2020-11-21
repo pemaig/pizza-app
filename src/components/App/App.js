@@ -10,6 +10,7 @@ import {ROUTES} from "../../utils/consts";
 import MenuPage from "../MenuPage/MenuPage";
 import OrdersPage from "../OrdersPage/OrdersPage";
 import CardPage from "../CardPage/CardPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 function App() {
     return (
@@ -20,8 +21,8 @@ function App() {
                     <Switch>
                         <Route path={ROUTES.HOME} exact component={MenuPage}/>
                         <Route path={ROUTES.LOGIN} component={LoginPage}/>
-                        <Route path={ROUTES.ORDERS} component={OrdersPage}/>
                         <Route path={ROUTES.CARD} component={CardPage}/>
+                        <PrivateRoute path={ROUTES.ORDERS} component={OrdersPage}/>
                     </Switch>
                 </Container>
             </AuthProvider>
