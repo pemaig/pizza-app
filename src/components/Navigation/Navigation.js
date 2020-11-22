@@ -1,27 +1,43 @@
 import React, {Component} from 'react';
 import {Nav, Navbar} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Link, Redirect, Route, Switch} from "react-router-dom";
 import {ROUTES} from "../../utils/consts";
 import {logOut} from "../../utils/fireApp";
 import AuthContext from "../../contexts/AuthContext";
+import MenuPage from "../MenuPage/MenuPage";
+import LoginPage from "../LoginPage/LoginPage";
+import CardPage from "../CardPage/CardPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import OrdersPage from "../OrdersPage/OrdersPage";
 
 class Navigation extends Component {
     static contextType = AuthContext
 
     render() {
         return (
-            <Navbar variant="dark" bg="dark">
-                <Navbar.Brand as={Link} to={ROUTES.HOME}>Pizza App</Navbar.Brand>
-                <Nav className="ml-auto">
-                    <Nav.Link as={Link} to={ROUTES.HOME}>Menu</Nav.Link>
-                    {this.context && <Nav.Link as={Link} to={ROUTES.ORDERS}>My Orders</Nav.Link>}
-                    <Nav.Link as={Link} to={ROUTES.CARD}>Card</Nav.Link>
-                    {this.context
-                        ? <Nav.Link onClick={logOut}>Log Out</Nav.Link>
-                        : <Nav.Link as={Link} to={ROUTES.LOGIN}>Log In</Nav.Link>
-                    }
-                </Nav>
-            </Navbar>
+            <>
+                <Navbar variant="dark" bg="dark">
+                    <Navbar.Brand as={Link} to={ROUTES.HOME}>Pizza App</Navbar.Brand>
+                    <Nav className="ml-auto">
+                        <Nav.Link as={Link} to={ROUTES.HOME}>Menu</Nav.Link>
+                        {this.context && <Nav.Link as={Link} to={ROUTES.ORDERS}>My Orders</Nav.Link>}
+                        <Nav.Link as={Link} to={ROUTES.CARD}>Card</Nav.Link>
+                        {this.context
+                            ? <Nav.Link onClick={logOut}>Log Out</Nav.Link>
+                            : <Nav.Link as={Link} to={ROUTES.LOGIN}>Log In</Nav.Link>
+                        }
+                    </Nav>
+                </Navbar>
+                <Switch>
+                    <Route path={ROUTES.HOME} exact component={MenuPage}/>
+                    <Route path={ROUTES.LOGIN} component={LoginPage}/>
+                    <Route path={ROUTES.CARD} component={CardPage}/>
+                    <PrivateRoute path={ROUTES.ORDERS} component={OrdersPage}/>
+                    <Route>
+                        <Redirect to={ROUTES.HOME}/>
+                    </Route>
+                </Switch>
+            </>
         );
     }
 }
