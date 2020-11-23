@@ -16,7 +16,7 @@ class Navigation extends Component {
     render() {
         return (
             <>
-                <Navbar variant="dark" bg="dark">
+                <Navbar variant="dark" bg="dark" className="p-md-4">
                     <Navbar.Brand as={Link} to={ROUTES.HOME}>Pizza App</Navbar.Brand>
                     <Nav className="ml-auto">
                         <Nav.Link as={Link} to={ROUTES.HOME}>Menu</Nav.Link>
