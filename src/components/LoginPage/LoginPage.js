@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import {Alert, Button, Card, Form} from "react-bootstrap";
 import {logIn, signIn} from "../../utils/fireApp";
 import {ROUTES} from "../../utils/consts";
-import AuthContext from "../../contexts/AuthContext";
+import UserContext from "../../contexts/UserContext";
 import {Redirect} from "react-router";
 
 // TODO если юзер залогинился то при переходе на /login юезера переводить на MenuPage
 class LoginPage extends Component {
-    static contextType = AuthContext
+    static contextType = UserContext
 
     state = {
         isLoginMode: true,
@@ -70,7 +70,7 @@ class LoginPage extends Component {
         } = this.state;
 
         return (
-            this.context
+            this.context.isAuthenticated
                 ? (<Redirect to={ROUTES.HOME}/>)
                 : (
                     <Card className="custom-card mt-5 ml-auto mr-auto">
