@@ -5,7 +5,7 @@ import fireApp from "../utils/fireApp";
 class UserContextProvider extends Component {
     state = {
         isAuthenticated: false,
-        cart: []
+        cart: {}
     }
 
     componentDidMount() {
@@ -19,18 +19,37 @@ class UserContextProvider extends Component {
     }
 
     updateStorage = () => {
-        localStorage.setItem('cart', this.state.cart.join(' '))
+        localStorage.setItem('cart', JSON.stringify(this.state.cart))
     }
 
     addToCart = (item) => {
-        this.setState({cart: [...this.state.cart, item]}, this.updateStorage)
+        const {cart} = this.state
+        let newCart = {...cart}
+
+        if (cart[item]) {
+            newCart[item] = newCart[item] + 1
+            this.setState({cart: newCart}, this.updateStorage)
+        } else {
+            newCart[item] = 1
+            this.setState({cart: newCart}, this.updateStorage)
+        }
     }
 
     removeFromCart = (item) => {
         const {cart} = this.state
-        let removeIndex = cart.findIndex(el => el === item)
-        if (removeIndex !== -1) {
-            this.setState({cart: cart.filter((el, index) => index !== removeIndex)}, this.updateStorage)
+        let newCart = {...cart}
+
+        if (!cart[item]) {
+            return
+        }
+
+        const amount = cart[item]
+        if (amount > 1) {
+            newCart[item] = newCart[item] - 1
+            this.setState({cart: newCart}, this.updateStorage)
+        } else {
+            delete newCart[item]
+            this.setState({cart: newCart}, this.updateStorage)
         }
     }
 

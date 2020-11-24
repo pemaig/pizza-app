@@ -1,21 +1,38 @@
 import React, {Component} from 'react';
-import {Button, Card, ListGroup} from "react-bootstrap";
+import {Badge, Button, Card, ListGroup} from "react-bootstrap";
 import UserContext from "../../contexts/UserContext";
 
 class CartPage extends Component {
     static contextType = UserContext
 
     state = {
-        pizzaItems: []
+        pizzaItems: {}
     }
 
     componentDidMount() {
-        let cart = localStorage.getItem('cart').split(' ')
-        this.setState({pizzaItems: cart})
+        let cart = JSON.parse(localStorage.getItem('cart'))
+        this.setState({pizzaItems: cart}, () => console.log(this.state))
+    }
+
+    renderList = () => {
+        const {pizzaItems} = this.state
+        let pizzaItemsList = []
+
+        for (const pizzaName in pizzaItems) {
+            pizzaItemsList.push(
+                <ListGroup.Item key={pizzaName}>
+                    {pizzaName}
+                    <Badge pill>
+                        {[pizzaItems[pizzaName]]}
+                    </Badge>
+                </ListGroup.Item>
+            )
+        }
+
+        return pizzaItemsList
     }
 
     render() {
-        const {pizzaItems} = this.state
         return (
             <Card className="custom-card mt-5 ml-auto mr-auto">
                 <Card.Body>
@@ -23,11 +40,7 @@ class CartPage extends Component {
                         Your Cart
                     </Card.Title>
                     <ListGroup>
-                        {pizzaItems.map((item, index) =>
-                            <ListGroup.Item key={index}>
-                                {item}
-                            </ListGroup.Item>
-                        )}
+                        {this.renderList()}
                     </ListGroup>
                     <Card.Text>Total Price:</Card.Text>
                 </Card.Body>
