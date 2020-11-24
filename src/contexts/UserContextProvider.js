@@ -35,6 +35,9 @@ class UserContextProvider extends Component {
         }
     }
 
+    clearCart = () => {
+        this.setState({cart: {}}, this.updateStorage)}
+
     removeFromCart = (item) => {
         const {cart} = this.state
         let newCart = {...cart}
@@ -59,7 +62,8 @@ class UserContextProvider extends Component {
                 isAuthenticated: this.state.isAuthenticated,
                 cart: this.state.cart,
                 addToCart: this.addToCart,
-                removeFromCart: this.removeFromCart
+                removeFromCart: this.removeFromCart,
+                clearCart: this.clearCart,
             }}
             >
                 {this.props.children}

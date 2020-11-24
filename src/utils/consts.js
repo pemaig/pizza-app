@@ -17,55 +17,55 @@ export const ROUTES = {
 
 export const PIZZA_TYPES = [
     {
-        name: 'bianca',
+        name: 'Bianca',
         ingredients: [],
         price: 10,
         img: bianca
     },
     {
-        name: 'funghi',
+        name: 'Funghi',
         ingredients: [],
         price: 10,
         img: funghi
     },
     {
-        name: 'hawaiian',
+        name: 'Hawaiian',
         ingredients: [],
         price: 10,
         img: hawaiian
     },
     {
-        name: 'margherita',
+        name: 'Margherita',
         ingredients: [],
         price: 10,
         img: margherita
     },
     {
-        name: 'marinara',
+        name: 'Marinara',
         ingredients: [],
         price: 10,
         img: marinara
     },
     {
-        name: 'mexicana',
+        name: 'Mexicana',
         ingredients: [],
         price: 10,
         img: mexicana
     },
     {
-        name: 'napoli',
+        name: 'Napoli',
         ingredients: [],
         price: 10,
         img: napoli
     },
     {
-        name: 'new_york',
+        name: 'New york',
         ingredients: [],
         price: 10,
         img: new_york
     },
     {
-        name: 'pepperoni',
+        name: 'Pepperoni',
         ingredients: [],
         price: 10,
         img: pepperoni

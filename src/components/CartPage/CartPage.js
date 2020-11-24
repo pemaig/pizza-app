@@ -11,8 +11,12 @@ class CartPage extends Component {
 
     componentDidMount() {
         let cart = JSON.parse(localStorage.getItem('cart'))
-        this.setState({pizzaItems: cart}, () => console.log(this.state))
+        this.setState({pizzaItems: cart})
     }
+
+   clearCart = () => {
+        this.setState({pizzaItems: {}}, this.context.clearCart)
+   }
 
     renderList = () => {
         const {pizzaItems} = this.state
@@ -46,7 +50,7 @@ class CartPage extends Component {
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-center">
                     <Button variant="dark" bg="dark" className="mr-4">Order</Button>
-                    <Button variant="dark" bg="dark">Clear</Button>
+                    <Button variant="dark" bg="dark" onClick={this.clearCart}>Clear</Button>
                 </Card.Footer>
             </Card>
         );
