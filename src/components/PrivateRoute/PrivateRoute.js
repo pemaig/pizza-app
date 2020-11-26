@@ -4,12 +4,12 @@ import UserContext from "../../contexts/UserContext";
 import {ROUTES} from "../../utils/consts";
 
 const PrivateRoute = ({component: Component, ...rest}) => {
-    const user = useContext(UserContext)
+    const {isAuthenticated} = useContext(UserContext)
     return (
         <Route
             {...rest}
             render={routeProps =>
-                user
+                isAuthenticated
                     ? <Component {...routeProps} />
                     : <Redirect to={ROUTES.HOME}/>
             }

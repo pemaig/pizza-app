@@ -6,7 +6,6 @@ class UserContextProvider extends Component {
     state = {
         isAuthenticated: false,
         cart: {},
-        name: 0
     }
 
     componentDidMount() {
@@ -65,7 +64,6 @@ class UserContextProvider extends Component {
                 addToCart: this.addToCart,
                 removeFromCart: this.removeFromCart,
                 clearCart: this.clearCart,
-                name: this.state.name,
                 changeName: this.changeName
             }}
             >
