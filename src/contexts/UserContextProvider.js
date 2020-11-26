@@ -5,10 +5,12 @@ import fireApp from "../utils/fireApp";
 class UserContextProvider extends Component {
     state = {
         isAuthenticated: false,
-        cart: {}
+        cart: {},
+        name: 0
     }
 
     componentDidMount() {
+        this.setState({cart: JSON.parse(localStorage.getItem('cart'))})
         fireApp.auth().onAuthStateChanged(user => {
             if (user) {
                 this.setState({isAuthenticated: true})
@@ -18,9 +20,7 @@ class UserContextProvider extends Component {
         })
     }
 
-    updateStorage = () => {
-        localStorage.setItem('cart', JSON.stringify(this.state.cart))
-    }
+    updateStorage = () => {localStorage.setItem('cart', JSON.stringify(this.state.cart))}
 
     addToCart = (item) => {
         const {cart} = this.state
@@ -35,8 +35,7 @@ class UserContextProvider extends Component {
         }
     }
 
-    clearCart = () => {
-        this.setState({cart: {}}, this.updateStorage)}
+    changeName = (num) => {this.setState((prevState)=>({name: prevState.name + num}))}
 
     removeFromCart = (item) => {
         const {cart} = this.state
@@ -56,6 +55,8 @@ class UserContextProvider extends Component {
         }
     }
 
+    clearCart = () => {this.setState({cart: {}}, this.updateStorage)}
+
     render() {
         return (
             <UserContext.Provider value={{
@@ -64,6 +65,8 @@ class UserContextProvider extends Component {
                 addToCart: this.addToCart,
                 removeFromCart: this.removeFromCart,
                 clearCart: this.clearCart,
+                name: this.state.name,
+                changeName: this.changeName
             }}
             >
                 {this.props.children}
