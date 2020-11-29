@@ -1,10 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class OrdersPage extends Component {
     render() {
-        return (
-            <div>Orders</div>
-        );
+        return <div>Orders</div>;
     }
 }
 

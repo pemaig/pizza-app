@@ -13,61 +13,61 @@ export const ROUTES = {
     LOGIN: '/login',
     ORDERS: '/orders',
     CART: '/cart',
-}
+};
 
 export const PIZZA_TYPES = [
     {
         name: 'Bianca',
         ingredients: [],
         price: 10,
-        img: bianca
+        img: bianca,
     },
     {
         name: 'Funghi',
         ingredients: [],
         price: 10,
-        img: funghi
+        img: funghi,
     },
     {
         name: 'Hawaiian',
         ingredients: [],
         price: 10,
-        img: hawaiian
+        img: hawaiian,
     },
     {
         name: 'Margherita',
         ingredients: [],
         price: 10,
-        img: margherita
+        img: margherita,
     },
     {
         name: 'Marinara',
         ingredients: [],
         price: 10,
-        img: marinara
+        img: marinara,
     },
     {
         name: 'Mexicana',
         ingredients: [],
         price: 10,
-        img: mexicana
+        img: mexicana,
     },
     {
         name: 'Napoli',
         ingredients: [],
         price: 10,
-        img: napoli
+        img: napoli,
     },
     {
         name: 'New york',
         ingredients: [],
         price: 10,
-        img: new_york
+        img: new_york,
     },
     {
         name: 'Pepperoni',
         ingredients: [],
         price: 10,
-        img: pepperoni
+        img: pepperoni,
     },
-]
+];

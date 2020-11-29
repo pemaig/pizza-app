@@ -11,8 +11,11 @@ const fireApp = firebase.initializeApp({
     appId: '1:307170302921:web:08a116a0d1adfe0db8a618',
 });
 
-export const logIn = (email, password) => fireApp.auth().signInWithEmailAndPassword(email, password)
-export const logOut = () => fireApp.auth().signOut()
-export const signIn = (email, password) => fireApp.auth().createUserWithEmailAndPassword(email, password)
+export const logIn = (email, password) =>
+    fireApp.auth().signInWithEmailAndPassword(email, password);
+
+export const logOut = () => fireApp.auth().signOut();
+export const signIn = (email, password) =>
+    fireApp.auth().createUserWithEmailAndPassword(email, password);
 
 export default fireApp;

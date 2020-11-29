@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
-import UserContext from "./UserContext";
-import fireApp from "../utils/fireApp";
-import {withRouter} from "react-router";
+import React, { Component } from 'react';
+import UserContext from './UserContext';
+import fireApp from '../utils/fireApp';
 
 class UserContextProvider extends Component {
     state = {
         isAuthenticated: localStorage.getItem('logged'),
         cart: {},
-    }
+    };
 
     // render() {
     //     const {
@@ -25,67 +24,72 @@ class UserContextProvider extends Component {
     // }
 
     componentDidMount() {
-        let cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'))
+        let cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
         if (cartFromLocalStorage) {
-            this.setState({cart: cartFromLocalStorage})
+            this.setState({ cart: cartFromLocalStorage });
         }
-        fireApp.auth().onAuthStateChanged(user => {
+        fireApp.auth().onAuthStateChanged((user) => {
             if (user) {
-                this.setState({isAuthenticated: true}, () => localStorage.setItem('logged', true))
+                this.setState({ isAuthenticated: true }, () =>
+                    localStorage.setItem('logged', true),
+                );
             } else {
-                this.setState({isAuthenticated: false}, () => localStorage.removeItem('logged'))
+                this.setState({ isAuthenticated: false }, () =>
+                    localStorage.removeItem('logged'),
+                );
             }
-        })
+        });
     }
 
     updateStorage = () => {
-        localStorage.setItem('cart', JSON.stringify(this.state.cart))
-    }
+        localStorage.setItem('cart', JSON.stringify(this.state.cart));
+    };
 
     addToCart = (item) => {
-        const {cart} = this.state
-        let newCart = {...cart}
+        const { cart } = this.state;
+        let newCart = { ...cart };
 
         if (cart[item]) {
-            newCart[item] = newCart[item] + 1
-            this.setState({cart: newCart}, this.updateStorage)
+            newCart[item] = newCart[item] + 1;
+            this.setState({ cart: newCart }, this.updateStorage);
         } else {
-            newCart[item] = 1
-            this.setState({cart: newCart}, this.updateStorage)
+            newCart[item] = 1;
+            this.setState({ cart: newCart }, this.updateStorage);
         }
-    }
+    };
 
     removeFromCart = (item) => {
-        const {cart} = this.state
-        let newCart = {...cart}
+        const { cart } = this.state;
+        let newCart = { ...cart };
 
         if (!cart[item]) {
-            return
+            return;
         }
 
-        const amount = cart[item]
+        const amount = cart[item];
         if (amount > 1) {
-            newCart[item] = newCart[item] - 1
-            this.setState({cart: newCart}, this.updateStorage)
+            newCart[item] = newCart[item] - 1;
+            this.setState({ cart: newCart }, this.updateStorage);
         } else {
-            delete newCart[item]
-            this.setState({cart: newCart}, this.updateStorage)
+            delete newCart[item];
+            this.setState({ cart: newCart }, this.updateStorage);
         }
-    }
+    };
 
     clearCart = () => {
-        this.setState({cart: {}}, this.updateStorage)
-    }
+        this.setState({ cart: {} }, this.updateStorage);
+    };
 
     render() {
         return (
-            <UserContext.Provider value={{
-                isAuthenticated: this.state.isAuthenticated,
-                cart: this.state.cart,
-                addToCart: this.addToCart,
-                removeFromCart: this.removeFromCart,
-                clearCart: this.clearCart,
-            }}
+            <UserContext.Provider
+                value={{
+                    isAuthenticated: this.state.isAuthenticated,
+                    cart: this.state.cart,
+                    addToCart: this.addToCart,
+                    removeFromCart: this.removeFromCart,
+                    clearCart: this.clearCart,
+                }}
             >
                 {this.props.children}
             </UserContext.Provider>
@@ -93,4 +97,4 @@ class UserContextProvider extends Component {
     }
 }
 
-export default withRouter(UserContextProvider);
+export default UserContextProvider;
