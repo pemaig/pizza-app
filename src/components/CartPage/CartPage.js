@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Badge, Button, Card, ListGroup } from 'react-bootstrap';
 import UserContext from '../../contexts/UserContext';
+import { ROUTES } from '../../utils/consts';
 
 class CartPage extends Component {
     static contextType = UserContext;
@@ -24,7 +25,7 @@ class CartPage extends Component {
                         <Badge
                             onClick={() => removeFromCart(pizzaName)}
                             variant="dark"
-                            className="pl-3 pr-3 pb-2 pb-2 mr-2"
+                            className="pl-3 pr-3 pb-2 pb-2 mr-2 btn-cursor"
                         >
                             -
                         </Badge>
@@ -32,7 +33,7 @@ class CartPage extends Component {
                         <Badge
                             onClick={() => addToCart(pizzaName)}
                             variant="dark"
-                            className="pl-3 pr-3 pb-2 pb-2 ml-2"
+                            className="pl-3 pr-3 pb-2 pb-2 ml-2 btn-cursor"
                         >
                             +
                         </Badge>
@@ -44,6 +45,10 @@ class CartPage extends Component {
         return pizzaItemsList;
     };
 
+    goToOrders = () => {
+        this.props.history.push(ROUTES.ORDER);
+    };
+
     render() {
         return (
             <Card className="custom-card mt-5 ml-auto mr-auto">
@@ -53,15 +58,16 @@ class CartPage extends Component {
                     <Card.Text className="mt-4">Total Price:</Card.Text>
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-center">
-                    <Button variant="dark" bg="dark" className="mr-4">
-                        Order
-                    </Button>
                     <Button
                         variant="dark"
                         bg="dark"
+                        className="mr-4"
                         onClick={this.context.clearCart}
                     >
                         Clear
+                    </Button>
+                    <Button variant="dark" bg="dark" onClick={this.goToOrders}>
+                        Go to Order
                     </Button>
                 </Card.Footer>
             </Card>

@@ -9,6 +9,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import CartPage from '../CartPage/CartPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import OrdersPage from '../OrdersPage/OrdersPage';
+import OrderPage from '../OrderPage';
 
 class Navigation extends Component {
     static contextType = UserContext;
@@ -18,8 +19,8 @@ class Navigation extends Component {
             <>
                 <Navbar
                     sticky="top"
-                    variant="dark"
                     bg="dark"
+                    variant="dark"
                     className="p-md-4"
                 >
                     <Navbar.Brand as={Link} to={ROUTES.HOME}>
@@ -50,6 +51,7 @@ class Navigation extends Component {
                     <Route path={ROUTES.HOME} exact component={MenuPage} />
                     <Route path={ROUTES.LOGIN} component={LoginPage} />
                     <Route path={ROUTES.CART} component={CartPage} />
+                    <Route path={ROUTES.ORDER} component={OrderPage} />
                     <PrivateRoute path={ROUTES.ORDERS} component={OrdersPage} />
                     <Route>
                         <Redirect to={ROUTES.HOME} />
