@@ -21,7 +21,7 @@ class Navigation extends Component {
                     sticky="top"
                     bg="dark"
                     variant="dark"
-                    className="p-md-4"
+                    className="pl-5 pr-5 pt-3 pb-3"
                 >
                     <Navbar.Brand as={Link} to={ROUTES.HOME}>
                         Pizza App

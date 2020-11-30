@@ -20,37 +20,37 @@ export const PIZZA_TYPES = [
     {
         name: 'Bianca',
         ingredients: [],
-        price: 10,
+        price: 9.5,
         img: bianca,
     },
     {
         name: 'Funghi',
         ingredients: [],
-        price: 10,
+        price: 9,
         img: funghi,
     },
     {
         name: 'Hawaiian',
         ingredients: [],
-        price: 10,
+        price: 8,
         img: hawaiian,
     },
     {
         name: 'Margherita',
         ingredients: [],
-        price: 10,
+        price: 7,
         img: margherita,
     },
     {
         name: 'Marinara',
         ingredients: [],
-        price: 10,
+        price: 5.5,
         img: marinara,
     },
     {
         name: 'Mexicana',
         ingredients: [],
-        price: 10,
+        price: 7.5,
         img: mexicana,
     },
     {
@@ -62,13 +62,13 @@ export const PIZZA_TYPES = [
     {
         name: 'New york',
         ingredients: [],
-        price: 10,
+        price: 6,
         img: new_york,
     },
     {
         name: 'Pepperoni',
         ingredients: [],
-        price: 10,
+        price: 5,
         img: pepperoni,
     },
 ];

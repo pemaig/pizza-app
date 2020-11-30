@@ -14,7 +14,13 @@ class ProductCard extends Component {
             <Card className=" custom-card mt-5">
                 <Card.Body>
                     <Card.Img variant="top" src={img} alt={name} />
-                    <Card.Text>Price: {price}</Card.Text>
+                    <Card.Text className="mt-2 font-weight-bold">
+                        Price:{' '}
+                        <span style={{ fontSize: '20px', color: '#464e0e' }}>
+                            {price}
+                        </span>{' '}
+                        $
+                    </Card.Text>
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-center">
                     <Button
