@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import UserContext from './UserContext';
 import fireApp from '../utils/fireApp';
+import { PIZZA_TYPES } from '../utils/consts';
 
 class UserContextProvider extends Component {
     state = {
         isAuthenticated: localStorage.getItem('logged'),
         cart: {},
+        totalPrice: 0,
     };
 
     // render() {
@@ -39,6 +41,12 @@ class UserContextProvider extends Component {
                 );
             }
         });
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.cart !== this.state.cart) {
+            this.getTotalPrice();
+        }
     }
 
     updateStorage = () => {
@@ -80,6 +88,22 @@ class UserContextProvider extends Component {
         this.setState({ cart: {} }, this.updateStorage);
     };
 
+    getTotalPrice = () => {
+        try {
+            let totalPrice = 0;
+            let pizzaItems = this.state.cart;
+            for (let item in pizzaItems) {
+                let itemPrice =
+                    PIZZA_TYPES.find((pizzaType) => pizzaType.name === item)
+                        .price * pizzaItems[item];
+                totalPrice += itemPrice;
+            }
+            this.setState({ totalPrice: totalPrice });
+        } catch (err) {
+            console.log(err.message);
+        }
+    };
+
     render() {
         return (
             <UserContext.Provider
@@ -89,6 +113,7 @@ class UserContextProvider extends Component {
                     addToCart: this.addToCart,
                     removeFromCart: this.removeFromCart,
                     clearCart: this.clearCart,
+                    totalPrice: this.state.totalPrice,
                 }}
             >
                 {this.props.children}

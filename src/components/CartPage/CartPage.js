@@ -6,10 +6,6 @@ import { ROUTES } from '../../utils/consts';
 class CartPage extends Component {
     static contextType = UserContext;
 
-    state = {
-        pizzaItems: {},
-    };
-
     renderList = () => {
         const { addToCart, removeFromCart, cart } = this.context;
         let pizzaItemsList = [];
@@ -50,19 +46,22 @@ class CartPage extends Component {
     };
 
     render() {
+        const { totalPrice, clearCart } = this.context;
         return (
             <Card className="custom-card mt-5 ml-auto mr-auto">
                 <Card.Body>
                     <Card.Title className="text-center">Your Cart</Card.Title>
                     <ListGroup variant="flush">{this.renderList()}</ListGroup>
-                    <Card.Text className="mt-4">Total Price:</Card.Text>
+                    <Card.Text className="mt-4">
+                        Total Price: {totalPrice}
+                    </Card.Text>
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-center">
                     <Button
                         variant="dark"
                         bg="dark"
                         className="mr-4"
-                        onClick={this.context.clearCart}
+                        onClick={clearCart}
                     >
                         Clear
                     </Button>
