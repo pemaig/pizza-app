@@ -48,13 +48,13 @@ class CartPage extends Component {
     render() {
         const { totalPrice, clearCart } = this.context;
         return (
-            <Card className="custom-card mt-5 ml-auto mr-auto">
+            <Card className="custom-card-height custom-card-width mt-5 ml-auto mr-auto">
                 <Card.Body>
                     <Card.Title className="text-center">Your Cart</Card.Title>
-                    <ListGroup variant="flush">{this.renderList()}</ListGroup>
-                    <Card.Text className="mt-4">
+                    <Card.Text className="text-center">
                         Total Price: {totalPrice}
                     </Card.Text>
+                    <ListGroup variant="flush">{this.renderList()}</ListGroup>
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-center">
                     <Button

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Alert, Button, Card, Form } from 'react-bootstrap';
+import { Alert, Button, Card, Form, Spinner } from 'react-bootstrap';
 import { logIn, signIn } from '../../utils/fireApp';
 import { ROUTES } from '../../utils/consts';
 import UserContext from '../../contexts/UserContext';
 import { Redirect } from 'react-router';
 
-// TODO если юзер залогинился то при переходе на /login юезера переводить на MenuPage
 class LoginPage extends Component {
     static contextType = UserContext;
 
@@ -15,6 +14,7 @@ class LoginPage extends Component {
         password: '',
         passwordConfirmation: '',
         error: '',
+        isLoading: false,
     };
 
     handleLoginPageMode = () => {
@@ -74,14 +74,24 @@ class LoginPage extends Component {
             passwordConfirmation,
         } = this.state;
 
+        const title = isLoginMode ? 'Log In' : 'Sign Up';
+
         return this.context.isAuthenticated ? (
             <Redirect to={ROUTES.HOME} />
         ) : (
-            <Card className="custom-card mt-5 ml-auto mr-auto">
+            <Card className="custom-card-width mt-5 ml-auto mr-auto">
                 <Card.Body>
-                    <Card.Title className="text-center">
-                        {isLoginMode ? 'Log In' : 'Sign Up'}
-                    </Card.Title>
+                    {isLoading ? (
+                        <div className="text-center">
+                            <Spinner
+                                className="custom-spinner"
+                                animation="border"
+                                role="status"
+                            />
+                        </div>
+                    ) : (
+                        <Card.Title className="text-center">{title}</Card.Title>
+                    )}
                     {error && <Alert variant="danger">{error}</Alert>}
                     <Form>
                         <Form.Group controlId="email">
@@ -90,16 +100,17 @@ class LoginPage extends Component {
                                 type="email"
                                 placeholder="Enter your email"
                                 value={email}
+                                disabled={isLoading}
                                 onChange={this.handleEmail}
                             />
                         </Form.Group>
-
                         <Form.Group controlId="password">
                             <Form.Label>Password</Form.Label>
                             <Form.Control
                                 type="password"
                                 placeholder="Enter your password"
                                 value={password}
+                                disabled={isLoading}
                                 onChange={this.handlePassword}
                             />
                             <Form.Text className="text-muted">
@@ -117,7 +128,6 @@ class LoginPage extends Component {
                                 />
                             </Form.Group>
                         )}
-
                         <Button
                             variant="primary"
                             className="w-100"

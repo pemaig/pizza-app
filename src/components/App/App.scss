@@ -3,9 +3,12 @@
     min-height: 100vh;
 }
 
-.custom-card {
+.custom-card-height {
+    min-height: 480px;
+}
+
+.custom-card-width {
     width: 450px;
-    height: 480px;
 }
 
 .custom-spinner {

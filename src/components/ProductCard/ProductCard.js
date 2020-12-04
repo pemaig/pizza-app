@@ -11,7 +11,7 @@ class ProductCard extends Component {
             pizzaType: { name, price, img },
         } = this.props;
         return (
-            <Card className=" custom-card mt-5">
+            <Card className=" mt-5">
                 <Card.Body>
                     <Card.Img variant="top" src={img} alt={name} />
                     <Card.Text className="mt-2 font-weight-bold">

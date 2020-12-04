@@ -9,7 +9,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import CartPage from '../CartPage/CartPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import OrdersPage from '../OrdersPage/OrdersPage';
-import OrderPage from '../OrderPage';
+import OrderPage from '../OrderPage/OrderPage';
 
 class Navigation extends Component {
     static contextType = UserContext;
