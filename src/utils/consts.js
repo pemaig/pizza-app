@@ -8,7 +8,8 @@ import napoli from '../images/napoli.jpg';
 import new_york from '../images/new_york.jpg';
 import pepperoni from '../images/pepperoni.jpg';
 
-export const FIREBASE_URL = 'https://pizza-app-d3506.firebaseio.com/.json';
+export const FIREBASE_BASE_URL = 'https://pizza-app-d3506.firebaseio.com';
+export const FIREBASE_ORDERS_URL = FIREBASE_BASE_URL + '/orders.json';
 
 export const ROUTES = {
     HOME: '/',

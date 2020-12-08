@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, Button, Card, Form, Spinner } from 'react-bootstrap';
-import { FIREBASE_URL } from '../../utils/consts';
 import UserContext from '../../contexts/UserContext';
+import { FIREBASE_ORDERS_URL } from '../../utils/consts';
 
 class OrderPage extends Component {
     static contextType = UserContext;
@@ -30,17 +30,31 @@ class OrderPage extends Component {
 
     handleMakeAnOrder = async () => {
         const { cart, totalPrice } = this.context;
-        const body = { cart: cart, totalPrice: totalPrice };
+        const { name, address, phone } = this.state;
+        const body = {
+            cart: cart,
+            totalPrice: totalPrice,
+            customerData: {
+                name: name,
+                address: address,
+                phone: phone,
+            },
+        };
 
         this.setState({ isLoading: true });
 
         try {
-            let response = await fetch(FIREBASE_URL, {
+            let response = await fetch(FIREBASE_ORDERS_URL, {
                 method: 'POST',
                 body: JSON.stringify(body),
             });
             if (response.ok) {
-                this.setState({ responseMessage: 'Thank you for your order!' });
+                this.setState({
+                    name: '',
+                    address: '',
+                    phone: '',
+                    responseMessage: 'Thank you for your order!',
+                });
                 this.context.clearCart();
             }
         } catch (err) {
