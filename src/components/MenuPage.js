@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { CardColumns, Container } from 'react-bootstrap';
-import ProductCard from '../ProductCard/ProductCard';
-import { PIZZA_TYPES } from '../../utils/consts';
+import ProductCard from './ProductCard';
+import { PIZZA_TYPES } from '../utils/consts';
 
 class MenuPage extends Component {
     render() {

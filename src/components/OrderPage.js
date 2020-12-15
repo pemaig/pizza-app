@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, Button, Card, Form, Spinner } from 'react-bootstrap';
-import UserContext from '../../contexts/UserContext';
-import { FIREBASE_ORDERS_URL } from '../../utils/consts';
+import UserContext from '../contexts/UserContext';
+import { ERROR_MESSAGE, FIREBASE_ORDERS_URL } from '../utils/consts';
 
 class OrderPage extends Component {
     static contextType = UserContext;
@@ -29,9 +29,10 @@ class OrderPage extends Component {
     handleGoBackToCart = () => this.props.history.goBack();
 
     handleMakeAnOrder = async () => {
-        const { cart, totalPrice } = this.context;
+        const { cart, totalPrice, userToken, isAuthenticated } = this.context;
         const { name, address, phone } = this.state;
         const body = {
+            userToken: isAuthenticated && userToken,
             cart: cart,
             totalPrice: totalPrice,
             customerData: {
@@ -59,7 +60,7 @@ class OrderPage extends Component {
             }
         } catch (err) {
             this.setState({
-                responseMessage: 'Oops. Something went wrong :(',
+                responseMessage: ERROR_MESSAGE,
             });
         } finally {
             this.setState({ isLoading: false });

@@ -3,7 +3,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'react-bootstrap';
 import UserContextProvider from '../../contexts/UserContextProvider';
-import Navigation from '../Navigation/Navigation';
+import Navigation from '../Navigation';
 import { BrowserRouter } from 'react-router-dom';
 
 function App() {

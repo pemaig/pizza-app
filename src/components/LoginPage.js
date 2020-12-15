@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Alert, Button, Card, Form, Spinner } from 'react-bootstrap';
-import { logIn, signIn } from '../../utils/fireApp';
-import { ROUTES } from '../../utils/consts';
-import UserContext from '../../contexts/UserContext';
+import { logIn, signIn } from '../utils/fireApp';
+import { ROUTES } from '../utils/consts';
+import UserContext from '../contexts/UserContext';
 import { Redirect } from 'react-router';
 
 class LoginPage extends Component {

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { Link, Redirect, Route, Switch } from 'react-router-dom';
-import { ROUTES } from '../../utils/consts';
-import { logOut } from '../../utils/fireApp';
-import UserContext from '../../contexts/UserContext';
-import MenuPage from '../MenuPage/MenuPage';
-import LoginPage from '../LoginPage/LoginPage';
-import CartPage from '../CartPage/CartPage';
-import PrivateRoute from '../PrivateRoute/PrivateRoute';
-import OrdersPage from '../OrdersPage/OrdersPage';
-import OrderPage from '../OrderPage/OrderPage';
+import { ROUTES } from '../utils/consts';
+import { logOut } from '../utils/fireApp';
+import UserContext from '../contexts/UserContext';
+import MenuPage from './MenuPage';
+import LoginPage from './LoginPage';
+import CartPage from './CartPage';
+import PrivateRoute from './PrivateRoute';
+import OrdersPage from './OrdersPage';
+import OrderPage from './OrderPage';
 
 class Navigation extends Component {
     static contextType = UserContext;

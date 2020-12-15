@@ -6,6 +6,7 @@ import { PIZZA_TYPES } from '../utils/consts';
 class UserContextProvider extends Component {
     state = {
         isAuthenticated: localStorage.getItem('logged'),
+        userToken: localStorage.getItem('userToken'),
         cart: {},
         totalPrice: 0,
     };
@@ -32,8 +33,12 @@ class UserContextProvider extends Component {
         }
         fireApp.auth().onAuthStateChanged((user) => {
             if (user) {
-                this.setState({ isAuthenticated: true }, () =>
-                    localStorage.setItem('logged', 'true'),
+                this.setState(
+                    { isAuthenticated: true, userToken: user.uid },
+                    () => {
+                        localStorage.setItem('logged', 'true');
+                        localStorage.setItem('userToken', user.uid);
+                    },
                 );
             } else {
                 this.setState({ isAuthenticated: false }, () =>
@@ -109,6 +114,7 @@ class UserContextProvider extends Component {
             <UserContext.Provider
                 value={{
                     isAuthenticated: this.state.isAuthenticated,
+                    userToken: this.state.userToken,
                     cart: this.state.cart,
                     addToCart: this.addToCart,
                     removeFromCart: this.removeFromCart,
