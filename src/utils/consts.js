@@ -22,55 +22,46 @@ export const ROUTES = {
 export const PIZZA_TYPES = [
     {
         name: 'Bianca',
-        ingredients: [],
         price: 9.5,
         img: bianca,
     },
     {
         name: 'Funghi',
-        ingredients: [],
         price: 9,
         img: funghi,
     },
     {
         name: 'Hawaiian',
-        ingredients: [],
         price: 8,
         img: hawaiian,
     },
     {
         name: 'Margherita',
-        ingredients: [],
         price: 7,
         img: margherita,
     },
     {
         name: 'Marinara',
-        ingredients: [],
         price: 5.5,
         img: marinara,
     },
     {
         name: 'Mexicana',
-        ingredients: [],
         price: 7.5,
         img: mexicana,
     },
     {
         name: 'Napoli',
-        ingredients: [],
         price: 10,
         img: napoli,
     },
     {
         name: 'New york',
-        ingredients: [],
         price: 6,
         img: new_york,
     },
     {
         name: 'Pepperoni',
-        ingredients: [],
         price: 5,
         img: pepperoni,
     },
