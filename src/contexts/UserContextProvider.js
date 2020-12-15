@@ -33,7 +33,7 @@ class UserContextProvider extends Component {
         fireApp.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ isAuthenticated: true }, () =>
-                    localStorage.setItem('logged', true),
+                    localStorage.setItem('logged', 'true'),
                 );
             } else {
                 this.setState({ isAuthenticated: false }, () =>

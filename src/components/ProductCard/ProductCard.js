@@ -10,16 +10,13 @@ class ProductCard extends Component {
         const {
             pizzaType: { name, price, img },
         } = this.props;
+
         return (
-            <Card className=" mt-5">
+            <Card className="mt-5">
                 <Card.Body>
                     <Card.Img variant="top" src={img} alt={name} />
                     <Card.Text className="mt-2 font-weight-bold">
-                        Price:{' '}
-                        <span style={{ fontSize: '20px', color: '#464e0e' }}>
-                            {price}
-                        </span>{' '}
-                        $
+                        Price: <span className="custom-span">{price}</span> $
                     </Card.Text>
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-center">
