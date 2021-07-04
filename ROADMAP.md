@@ -1,0 +1,5 @@
+# TODO:
+
+- Refactor to react hooks
+- Add TypeScript
+- Replace Firebase with real backend on Node, Express, MongoDB
