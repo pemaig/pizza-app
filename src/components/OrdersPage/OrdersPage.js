@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import UserContext from '../contexts/UserContext';
-import { ERROR_MESSAGE, FIREBASE_ORDERS_URL } from '../utils/consts';
+import UserContext from '../../contexts/UserContext';
+import { ERROR_MESSAGE, FIREBASE_ORDERS_URL } from '../../utils/consts';
 import OrderListItem from './OrderListItem';
 import { Alert, ListGroup } from 'react-bootstrap';
-import Spinner from './Spinner';
+import Spinner from '../Spinner';
 
 class OrdersPage extends Component {
     static contextType = UserContext;

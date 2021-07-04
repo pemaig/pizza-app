@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Alert, Button, Card, Form } from 'react-bootstrap';
-import UserContext from '../contexts/UserContext';
-import { ERROR_MESSAGE, FIREBASE_ORDERS_URL } from '../utils/consts';
-import Spinner from './Spinner';
+import UserContext from '../../contexts/UserContext';
+import { ERROR_MESSAGE, FIREBASE_ORDERS_URL } from '../../utils/consts';
+import Spinner from '../Spinner';
 import Name from './Name';
 import Address from './Address';
 import Phone from './Phone';

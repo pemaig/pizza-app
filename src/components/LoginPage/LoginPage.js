@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Alert, Button, Card, Form } from 'react-bootstrap';
-import { logIn, signIn } from '../utils/fireApp';
-import { ROUTES } from '../utils/consts';
-import UserContext from '../contexts/UserContext';
+import { logIn, signIn } from '../../utils/fireApp';
+import { ROUTES } from '../../utils/consts';
+import UserContext from '../../contexts/UserContext';
 import { Redirect } from 'react-router';
 import Email from './Email';
 import Password from './Password';
 import PasswordConfirmation from './PasswordConfirmation';
-import Spinner from './Spinner';
+import Spinner from '../Spinner';
 
 class LoginPage extends Component {
     static contextType = UserContext;
