@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Badge, Button, Card, ListGroup } from 'react-bootstrap';
-import UserContext from '../contexts/UserContext';
-import { ROUTES } from '../utils/consts';
+import UserContext from '../../contexts/UserContext';
+import { ROUTES } from '../../utils/consts';
 
 class CartPage extends Component {
     static contextType = UserContext;

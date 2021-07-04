@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { Alert, Button, Card, Form, Spinner } from 'react-bootstrap';
-import { logIn, signIn } from '../utils/fireApp';
-import { ROUTES } from '../utils/consts';
-import UserContext from '../contexts/UserContext';
+import { Alert, Button, Card, Form } from 'react-bootstrap';
+import { logIn, signIn } from '../../utils/fireApp';
+import { ROUTES } from '../../utils/consts';
+import UserContext from '../../contexts/UserContext';
 import { Redirect } from 'react-router';
+import Email from './Email';
+import Password from './Password';
+import PasswordConfirmation from './PasswordConfirmation';
+import Spinner from '../Spinner';
 
 class LoginPage extends Component {
     static contextType = UserContext;
@@ -58,6 +62,7 @@ class LoginPage extends Component {
                 history.push(ROUTES.HOME);
             }
         } catch (err) {
+            // TODO: clear input fields if error
             this.setState({ error: err.message });
         } finally {
             this.setState({ isLoading: false });
@@ -83,50 +88,30 @@ class LoginPage extends Component {
                 <Card.Body>
                     {isLoading ? (
                         <div className="text-center">
-                            <Spinner
-                                className="custom-spinner"
-                                animation="border"
-                                role="status"
-                            />
+                            <Spinner />
                         </div>
                     ) : (
                         <Card.Title className="text-center">{title}</Card.Title>
                     )}
                     {error && <Alert variant="danger">{error}</Alert>}
                     <Form>
-                        <Form.Group controlId="email">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                placeholder="Enter your email"
-                                value={email}
-                                disabled={isLoading}
-                                onChange={this.handleEmail}
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="password">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Enter your password"
-                                value={password}
-                                disabled={isLoading}
-                                onChange={this.handlePassword}
-                            />
-                            <Form.Text className="text-muted">
-                                Password should be at least 6 symbols.
-                            </Form.Text>
-                        </Form.Group>
+                        <Email
+                            emailValue={email}
+                            isDisabled={isLoading}
+                            onChangeHandler={this.handleEmail}
+                        />
+                        <Password
+                            passwordValue={password}
+                            isDisabled={isLoading}
+                            onChangeHandler={this.handlePassword}
+                        />
                         {!isLoginMode && (
-                            <Form.Group controlId="password-confirmation">
-                                <Form.Label>Password Confirmation</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    placeholder="Please repeat your password"
-                                    value={passwordConfirmation}
-                                    onChange={this.handlePasswordConfirmation}
-                                />
-                            </Form.Group>
+                            <PasswordConfirmation
+                                passwordConfirmationValue={passwordConfirmation}
+                                onChangeHandler={
+                                    this.handlePasswordConfirmation
+                                }
+                            />
                         )}
                         <Button
                             variant="primary"

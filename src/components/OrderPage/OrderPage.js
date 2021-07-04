@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { Alert, Button, Card, Form, Spinner } from 'react-bootstrap';
-import UserContext from '../contexts/UserContext';
-import { ERROR_MESSAGE, FIREBASE_ORDERS_URL } from '../utils/consts';
+import { Alert, Button, Card, Form } from 'react-bootstrap';
+import UserContext from '../../contexts/UserContext';
+import { ERROR_MESSAGE, FIREBASE_ORDERS_URL } from '../../utils/consts';
+import Spinner from '../Spinner';
+import Name from './Name';
+import Address from './Address';
+import Phone from './Phone';
 
 class OrderPage extends Component {
     static contextType = UserContext;
@@ -29,6 +33,7 @@ class OrderPage extends Component {
     handleGoBackToCart = () => this.props.history.goBack();
 
     handleMakeAnOrder = async () => {
+        // TODO: добавить проверку полей: имя, адрес, телефон.
         const { cart, totalPrice, userToken, isAuthenticated } = this.context;
         const { name, address, phone } = this.state;
         const body = {
@@ -74,11 +79,7 @@ class OrderPage extends Component {
                 <Card.Body>
                     {isLoading ? (
                         <div className="text-center">
-                            <Spinner
-                                className="custom-spinner"
-                                animation="border"
-                                role="status"
-                            />
+                            <Spinner />
                         </div>
                     ) : (
                         <Card.Title className="text-center">Order</Card.Title>
@@ -87,37 +88,21 @@ class OrderPage extends Component {
                         <Alert variant="primary">{responseMessage}</Alert>
                     )}
                     <Form>
-                        <Form.Group controlId="name">
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control
-                                disabled={isLoading}
-                                type="text"
-                                placeholder="Enter your name"
-                                value={name}
-                                onChange={this.handleNameChange}
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="address">
-                            <Form.Label>Address</Form.Label>
-                            <Form.Control
-                                disabled={isLoading}
-                                type="text"
-                                placeholder="Enter your address"
-                                value={address}
-                                onChange={this.handleAddressChange}
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="phone">
-                            <Form.Label>Phone</Form.Label>
-                            <Form.Control
-                                disabled={isLoading}
-                                type="tel"
-                                pattern="[0-9]{10}"
-                                placeholder="Enter your phone"
-                                value={phone}
-                                onChange={this.handlePhoneChange}
-                            />
-                        </Form.Group>
+                        <Name
+                            nameValue={name}
+                            isDisabled={isLoading}
+                            onChangeHandler={this.handleNameChange}
+                        />
+                        <Address
+                            isDisabled={isLoading}
+                            addressValue={address}
+                            onChangeHandler={this.handleAddressChange}
+                        />
+                        <Phone
+                            isDisabled={isLoading}
+                            phoneValue={phone}
+                            onChangeHandler={this.handlePhoneChange}
+                        />
                     </Form>
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-center">
