@@ -1,13 +1,23 @@
-import React, { Component } from 'react';
+import React, { useContext } from 'react';
 import { Badge, Button, Card, ListGroup } from 'react-bootstrap';
 import UserContext from '../../contexts/UserContext';
 import { ROUTES } from '../../utils/consts';
 
-class CartPage extends Component {
-    static contextType = UserContext;
+const CartPage = ({ history }) => {
+    const {
+        totalPrice,
+        clearCart,
+        addToCart,
+        removeFromCart,
+        cart,
+    } = useContext(UserContext);
 
-    renderList = () => {
-        const { addToCart, removeFromCart, cart } = this.context;
+    const goToOrders = () => {
+        // TODO: need to check is card empty?
+        history.push(ROUTES.ORDER);
+    };
+
+    const renderList = () => {
         let pizzaItemsList = [];
 
         for (const pizzaName in cart) {
@@ -41,37 +51,30 @@ class CartPage extends Component {
         return pizzaItemsList;
     };
 
-    goToOrders = () => {
-        this.props.history.push(ROUTES.ORDER);
-    };
-
-    render() {
-        const { totalPrice, clearCart } = this.context;
-        return (
-            <Card className="custom-card-height custom-card-width mt-5 ml-auto mr-auto">
-                <Card.Body>
-                    <Card.Title className="text-center">Your Cart</Card.Title>
-                    <Card.Text className="text-center">
-                        Total Price: {totalPrice}
-                    </Card.Text>
-                    <ListGroup variant="flush">{this.renderList()}</ListGroup>
-                </Card.Body>
-                <Card.Footer className="d-flex justify-content-center">
-                    <Button
-                        variant="dark"
-                        bg="dark"
-                        className="mr-4"
-                        onClick={clearCart}
-                    >
-                        Clear
-                    </Button>
-                    <Button variant="dark" bg="dark" onClick={this.goToOrders}>
-                        Go to Order
-                    </Button>
-                </Card.Footer>
-            </Card>
-        );
-    }
-}
+    return (
+        <Card className="custom-card-height custom-card-width mt-5 ml-auto mr-auto">
+            <Card.Body>
+                <Card.Title className="text-center">Your Cart</Card.Title>
+                <Card.Text className="text-center">
+                    Total Price: {totalPrice}
+                </Card.Text>
+                <ListGroup variant="flush">{renderList()}</ListGroup>
+            </Card.Body>
+            <Card.Footer className="d-flex justify-content-center">
+                <Button
+                    variant="dark"
+                    bg="dark"
+                    className="mr-4"
+                    onClick={clearCart}
+                >
+                    Clear
+                </Button>
+                <Button variant="dark" bg="dark" onClick={goToOrders}>
+                    Go to Order
+                </Button>
+            </Card.Footer>
+        </Card>
+    );
+};
 
 export default CartPage;

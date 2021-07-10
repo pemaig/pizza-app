@@ -11,21 +11,6 @@ class UserContextProvider extends Component {
         totalPrice: 0,
     };
 
-    // render() {
-    //     const {
-    //         isLoginMode,
-    //         email,
-    //         password,
-    //         error,
-    //         isLoading,
-    //         passwordConfirmation,
-    //     } = this.state
-    //
-    //     if (this.context.isLoading) return <Loader />
-    //     else if (this.context.isAuthenticated) return <Redirect to={ROUTES.HOME} />
-    //     else return <Card className="custom-card mt-5 ml-auto mr-auto">...</Card>
-    // }
-
     componentDidMount() {
         let cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
         if (cartFromLocalStorage) {
