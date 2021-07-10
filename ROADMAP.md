@@ -6,3 +6,4 @@
 - Add tests
 - GraphQL
 - Show caret content in navigation
+- Add chatbot (use websockets)
