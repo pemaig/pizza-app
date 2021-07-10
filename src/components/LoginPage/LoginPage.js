@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Alert, Button, Card, Form } from 'react-bootstrap';
 import { logIn, signIn } from '../../utils/fireApp';
 import { ROUTES } from '../../utils/consts';
@@ -9,81 +9,78 @@ import Password from './Password';
 import PasswordConfirmation from './PasswordConfirmation';
 import Spinner from '../Spinner';
 
-class LoginPage extends Component {
-    static contextType = UserContext;
+const EMPTY_STRING = '';
 
-    state = {
-        isLoginMode: true,
-        email: '',
-        password: '',
-        passwordConfirmation: '',
-        error: '',
-        isLoading: false,
+const LoginPage = ({ history }) => {
+    const context = useContext(UserContext);
+
+    const [isMounted, setIsMounted] = useState(false);
+    const [isLoginMode, setIsLoginMode] = useState(true);
+    const [email, setEmail] = useState(EMPTY_STRING);
+    const [password, setPassword] = useState(EMPTY_STRING);
+    const [passwordConfirmation, setPasswordConfirmation] = useState(
+        EMPTY_STRING,
+    );
+    const [error, setError] = useState(EMPTY_STRING);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+        return () => setIsMounted(false);
+    });
+
+    const handleLoginPageMode = () => {
+        setIsLoginMode(!isLoginMode);
+        setError(EMPTY_STRING);
     };
 
-    handleLoginPageMode = () => {
-        this.setState({ isLoginMode: !this.state.isLoginMode, error: '' });
+    const handleEmail = (e) => {
+        setEmail(e.target.value);
     };
 
-    handleEmail = (e) => {
-        this.setState({ email: e.target.value });
+    const handlePassword = (e) => {
+        setPassword(e.target.value);
     };
 
-    handlePassword = (e) => {
-        this.setState({ password: e.target.value });
+    const handlePasswordConfirmation = (e) => {
+        setPasswordConfirmation(e.target.value);
     };
 
-    handlePasswordConfirmation = (e) => {
-        this.setState({ passwordConfirmation: e.target.value });
-    };
-
-    handleSubmit = async () => {
+    const handleSubmit = async () => {
         // TODO добавить валидацию полей перед отправкой на сервер
-        const {
-            email,
-            password,
-            passwordConfirmation,
-            isLoginMode,
-        } = this.state;
-        const { history } = this.props;
 
         try {
-            this.setState({ isLoading: true, error: '' });
+            setIsLoading(true);
+            setError(EMPTY_STRING);
 
             if (isLoginMode) {
                 await logIn(email, password);
-                history.push(ROUTES.HOME);
             } else {
                 if (password !== passwordConfirmation) {
-                    this.setState({ error: 'Passwords are different' });
+                    setError('Passwords are different');
                     return;
                 }
                 await signIn(email, password);
-                history.push(ROUTES.HOME);
             }
+
+            if (!isMounted) return;
+
+            history.push(ROUTES.HOME);
         } catch (err) {
             // TODO: clear input fields if error
-            this.setState({ error: err.message });
+            setError(err.message);
         } finally {
-            this.setState({ isLoading: false });
+            setIsLoading(false);
         }
     };
 
-    render() {
-        const {
-            isLoginMode,
-            email,
-            password,
-            error,
-            isLoading,
-            passwordConfirmation,
-        } = this.state;
-
-        const title = isLoginMode ? 'Log In' : 'Sign Up';
-
-        return this.context.isAuthenticated ? (
-            <Redirect to={ROUTES.HOME} />
-        ) : (
+    if (!isMounted) {
+        return null;
+    }
+    if (context.isAuthenticated) {
+        return <Redirect to={ROUTES.HOME} />;
+    } else {
+        return (
             <Card className="custom-card-width mt-5 ml-auto mr-auto">
                 <Card.Body>
                     {isLoading ? (
@@ -91,32 +88,32 @@ class LoginPage extends Component {
                             <Spinner />
                         </div>
                     ) : (
-                        <Card.Title className="text-center">{title}</Card.Title>
+                        <Card.Title className="text-center">
+                            {isLoginMode ? 'Log In' : 'Sign Up'}
+                        </Card.Title>
                     )}
                     {error && <Alert variant="danger">{error}</Alert>}
                     <Form>
                         <Email
                             emailValue={email}
                             isDisabled={isLoading}
-                            onChangeHandler={this.handleEmail}
+                            onChangeHandler={handleEmail}
                         />
                         <Password
                             passwordValue={password}
                             isDisabled={isLoading}
-                            onChangeHandler={this.handlePassword}
+                            onChangeHandler={handlePassword}
                         />
                         {!isLoginMode && (
                             <PasswordConfirmation
                                 passwordConfirmationValue={passwordConfirmation}
-                                onChangeHandler={
-                                    this.handlePasswordConfirmation
-                                }
+                                onChangeHandler={handlePasswordConfirmation}
                             />
                         )}
                         <Button
                             variant="primary"
                             className="w-100"
-                            onClick={this.handleSubmit}
+                            onClick={handleSubmit}
                             disabled={isLoading}
                         >
                             {isLoginMode ? 'Log In' : 'Sign Up'}
@@ -124,7 +121,7 @@ class LoginPage extends Component {
                         <Button
                             variant="secondary"
                             className="w-100 mt-2"
-                            onClick={this.handleLoginPageMode}
+                            onClick={handleLoginPageMode}
                             disabled={isLoading}
                         >
                             {isLoginMode
@@ -136,6 +133,6 @@ class LoginPage extends Component {
             </Card>
         );
     }
-}
+};
 
 export default LoginPage;

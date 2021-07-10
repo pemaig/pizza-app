@@ -1,65 +1,65 @@
-import React, { Component } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import UserContext from '../../contexts/UserContext';
 import { ERROR_MESSAGE, FIREBASE_ORDERS_URL } from '../../utils/consts';
 import OrderListItem from './OrderListItem';
 import { Alert, ListGroup } from 'react-bootstrap';
 import Spinner from '../Spinner';
 
-class OrdersPage extends Component {
-    static contextType = UserContext;
+const OrdersPage = () => {
+    const { userToken } = useContext(UserContext);
 
-    state = {
-        isLoading: false,
-        orders: [],
-        hasError: false,
-    };
+    const [isLoading, setIsLoading] = useState(false);
+    const [orders, setOrders] = useState([]);
+    const [hasError, setHasError] = useState(false);
 
-    async componentDidMount() {
-        const queryParams = `?orderBy="userToken"&equalTo="${this.context.userToken}"`;
+    useEffect(() => {
+        async function Fetch() {
+            const queryParams = `?orderBy="userToken"&equalTo="${userToken}"`;
 
-        try {
-            this.setState({ isLoading: true });
-            const response = await fetch(FIREBASE_ORDERS_URL + queryParams);
-            const data = await response.json();
-            this.setState({ orders: Object.values(data) });
-        } catch (err) {
-            this.setState({ hasError: true });
-        } finally {
-            this.setState({ isLoading: false });
+            try {
+                setIsLoading(true);
+
+                const response = await fetch(FIREBASE_ORDERS_URL + queryParams);
+                const data = await response.json();
+
+                setOrders(Object.values(data));
+            } catch (err) {
+                setHasError(true);
+            } finally {
+                setIsLoading(false);
+            }
         }
-    }
 
-    render() {
-        const { orders, isLoading, hasError } = this.state;
+        Fetch();
+    }, [userToken]);
 
-        return (
-            <>
-                {isLoading ? (
-                    <div className="text-center mt-5">
-                        <Spinner />
-                    </div>
-                ) : (
-                    <>
-                        {hasError ? (
-                            <div className="mt-5 ml-auto mr-auto w-50">
-                                <Alert variant="primary">{ERROR_MESSAGE}</Alert>
-                            </div>
-                        ) : (
-                            <ListGroup className="mt-5 ml-auto mr-auto w-50">
-                                {orders.map((item, index) => (
-                                    <OrderListItem
-                                        key={index}
-                                        cart={item.cart}
-                                        totalPrice={item.totalPrice}
-                                    />
-                                ))}
-                            </ListGroup>
-                        )}
-                    </>
-                )}
-            </>
-        );
-    }
-}
+    return (
+        <>
+            {isLoading ? (
+                <div className="text-center mt-5">
+                    <Spinner />
+                </div>
+            ) : (
+                <>
+                    {hasError ? (
+                        <div className="mt-5 ml-auto mr-auto w-50">
+                            <Alert variant="primary">{ERROR_MESSAGE}</Alert>
+                        </div>
+                    ) : (
+                        <ListGroup className="mt-5 ml-auto mr-auto w-50">
+                            {orders.map((item, index) => (
+                                <OrderListItem
+                                    key={index}
+                                    cart={item.cart}
+                                    totalPrice={item.totalPrice}
+                                />
+                            ))}
+                        </ListGroup>
+                    )}
+                </>
+            )}
+        </>
+    );
+};
 
 export default OrdersPage;

@@ -1,9 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { memo } from 'react';
 import { Badge, ListGroupItem } from 'react-bootstrap';
 
-class OrderListItem extends PureComponent {
-    renderPizzaItems = () => {
-        const { cart } = this.props;
+const OrderListItem = ({ cart, totalPrice }) => {
+    const renderPizzaItems = () => {
         const cartItemsArray = Object.entries(cart);
 
         return cartItemsArray.map((item) => (
@@ -13,17 +12,13 @@ class OrderListItem extends PureComponent {
         ));
     };
 
-    render() {
-        const { totalPrice } = this.props;
+    return (
+        <ListGroupItem>
+            <h4 className="d-inline-block mr-2">Cart: </h4>
+            {renderPizzaItems()}
+            <h6>Price: {totalPrice}</h6>
+        </ListGroupItem>
+    );
+};
 
-        return (
-            <ListGroupItem>
-                <h4 className="d-inline-block mr-2">Cart: </h4>
-                {this.renderPizzaItems()}
-                <h6>Price: {totalPrice}</h6>
-            </ListGroupItem>
-        );
-    }
-}
-
-export default OrderListItem;
+export default memo(OrderListItem);

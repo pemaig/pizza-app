@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useContext } from 'react';
 import { Alert, Button, Card, Form } from 'react-bootstrap';
 import UserContext from '../../contexts/UserContext';
 import { ERROR_MESSAGE, FIREBASE_ORDERS_URL } from '../../utils/consts';
@@ -7,35 +7,39 @@ import Name from './Name';
 import Address from './Address';
 import Phone from './Phone';
 
-class OrderPage extends Component {
-    static contextType = UserContext;
+const EMPTY_STRING = '';
 
-    state = {
-        name: '',
-        address: '',
-        phone: '',
-        isLoading: false,
-        responseMessage: '',
+const OrderPage = ({ history }) => {
+    const {
+        cart,
+        totalPrice,
+        userToken,
+        isAuthenticated,
+        clearCart,
+    } = useContext(UserContext);
+
+    const [name, setName] = useState(EMPTY_STRING);
+    const [address, setAddress] = useState(EMPTY_STRING);
+    const [phone, setPhone] = useState(EMPTY_STRING);
+    const [isLoading, setIsLoading] = useState(false);
+    const [responseMessage, setResponseMessage] = useState(EMPTY_STRING);
+
+    const handleNameChange = (e) => {
+        setName(e.target.value);
     };
 
-    handleNameChange = (e) => {
-        this.setState({ name: e.target.value });
+    const handleAddressChange = (e) => {
+        setAddress(e.target.value);
     };
 
-    handleAddressChange = (e) => {
-        this.setState({ address: e.target.value });
+    const handlePhoneChange = (e) => {
+        setPhone(e.target.value);
     };
 
-    handlePhoneChange = (e) => {
-        this.setState({ phone: e.target.value });
-    };
+    const handleGoBackToCart = () => history.goBack();
 
-    handleGoBackToCart = () => this.props.history.goBack();
-
-    handleMakeAnOrder = async () => {
+    const handleMakeAnOrder = async () => {
         // TODO: добавить проверку полей: имя, адрес, телефон.
-        const { cart, totalPrice, userToken, isAuthenticated } = this.context;
-        const { name, address, phone } = this.state;
         const body = {
             userToken: isAuthenticated && userToken,
             cart: cart,
@@ -47,7 +51,7 @@ class OrderPage extends Component {
             },
         };
 
-        this.setState({ isLoading: true });
+        setIsLoading(true);
 
         try {
             let response = await fetch(FIREBASE_ORDERS_URL, {
@@ -55,78 +59,72 @@ class OrderPage extends Component {
                 body: JSON.stringify(body),
             });
             if (response.ok) {
-                this.setState({
-                    name: '',
-                    address: '',
-                    phone: '',
-                    responseMessage: 'Thank you for your order!',
-                });
-                this.context.clearCart();
+                setName(EMPTY_STRING);
+                setAddress(EMPTY_STRING);
+                setPhone(EMPTY_STRING);
+                setResponseMessage('Thank you for your order!');
+
+                clearCart();
             }
         } catch (err) {
-            this.setState({
-                responseMessage: ERROR_MESSAGE,
-            });
+            setResponseMessage(ERROR_MESSAGE);
         } finally {
-            this.setState({ isLoading: false });
+            setIsLoading(false);
         }
     };
 
-    render() {
-        const { name, address, phone, isLoading, responseMessage } = this.state;
-        return (
-            <Card className="custom-card-width custom-card-height mt-5 ml-auto mr-auto">
-                <Card.Body>
-                    {isLoading ? (
-                        <div className="text-center">
-                            <Spinner />
-                        </div>
-                    ) : (
-                        <Card.Title className="text-center">Order</Card.Title>
-                    )}
-                    {responseMessage && (
-                        <Alert variant="primary">{responseMessage}</Alert>
-                    )}
-                    <Form>
-                        <Name
-                            nameValue={name}
-                            isDisabled={isLoading}
-                            onChangeHandler={this.handleNameChange}
-                        />
-                        <Address
-                            isDisabled={isLoading}
-                            addressValue={address}
-                            onChangeHandler={this.handleAddressChange}
-                        />
-                        <Phone
-                            isDisabled={isLoading}
-                            phoneValue={phone}
-                            onChangeHandler={this.handlePhoneChange}
-                        />
-                    </Form>
-                </Card.Body>
-                <Card.Footer className="d-flex justify-content-center">
-                    <Button
-                        variant="dark"
-                        bg="dark"
-                        className=" mr-4"
-                        disabled={isLoading}
-                        onClick={this.handleGoBackToCart}
-                    >
-                        Go back to Cart
-                    </Button>
-                    <Button
-                        variant="dark"
-                        bg="dark"
-                        disabled={isLoading}
-                        onClick={this.handleMakeAnOrder}
-                    >
-                        Make an Order
-                    </Button>
-                </Card.Footer>
-            </Card>
-        );
-    }
-}
+    return (
+        <Card className="custom-card-width custom-card-height mt-5 ml-auto mr-auto">
+            <Card.Body>
+                {isLoading ? (
+                    <div className="text-center">
+                        <Spinner />
+                    </div>
+                ) : (
+                    <Card.Title className="text-center">Order</Card.Title>
+                )}
+                {responseMessage && (
+                    <Alert variant="primary">{responseMessage}</Alert>
+                )}
+                <Form>
+                    <Name
+                        nameValue={name}
+                        isDisabled={isLoading}
+                        onChangeHandler={handleNameChange}
+                    />
+                    <Address
+                        isDisabled={isLoading}
+                        addressValue={address}
+                        onChangeHandler={handleAddressChange}
+                    />
+                    <Phone
+                        isDisabled={isLoading}
+                        phoneValue={phone}
+                        onChangeHandler={handlePhoneChange}
+                    />
+                </Form>
+            </Card.Body>
+            <Card.Footer className="d-flex justify-content-center">
+                <Button
+                    variant="dark"
+                    bg="dark"
+                    className=" mr-4"
+                    disabled={isLoading}
+                    onClick={handleGoBackToCart}
+                >
+                    Go back to Cart
+                </Button>
+                <Button
+                    variant="dark"
+                    bg="dark"
+                    disabled={isLoading}
+                    onClick={handleMakeAnOrder}
+                >
+                    Make an Order
+                </Button>
+            </Card.Footer>
+        </Card>
+    );
+};
 
 export default OrderPage;
