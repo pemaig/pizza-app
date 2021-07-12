@@ -27,7 +27,7 @@ const LoginPage = ({ history }) => {
     useEffect(() => {
         setIsMounted(true);
         return () => setIsMounted(false);
-    });
+    }, []);
 
     const handleLoginPageMode = () => {
         setIsLoginMode(!isLoginMode);
